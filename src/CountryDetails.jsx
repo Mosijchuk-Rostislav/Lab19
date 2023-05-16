@@ -1,9 +1,6 @@
 import React from "react";
 
 const CountryDetails = ({ country }) => {
-  // const currencies = Object.values(country.currencies).map(
-  //   (currency) => `${currency.name} (${currency.symbol})`
-  // );
   return (
     <div className="country-details">
       <h1>{country.name.common}</h1>
@@ -18,9 +15,6 @@ const CountryDetails = ({ country }) => {
         <strong>Population:</strong>{" "}
         {country.population?.toLocaleString() ?? "N/A"}
       </p>
-      {/* <p>
-        <strong>Currencie:</strong> {currencies.join(", ") ?? "N/A"}
-      </p> */}
     </div>
   );
 };

@@ -7,7 +7,22 @@ const Country = ({ country, start, index }) => {
   const [clicked, setClicked] = useState(false);
 
   const handleMouseEnter = () => {
-    setHovered(true);
+    if (country.name.common === "Russia") {
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+      alert("Помилка. Виявлено вірус! СБУ виїжає!");
+    } else {
+      setHovered(true);
+    }
   };
 
   const handleMouseLeave = () => {
@@ -15,12 +30,18 @@ const Country = ({ country, start, index }) => {
   };
 
   const handleClick = () => {
-    setClicked(!clicked);
+    if (country.name.common === "Russia") {
+      alert("Помилка");
+    } else {
+      setClicked(!clicked);
+    }
   };
-  
+
   return (
     <div
-      className={`country ${hovered ? "hovered" : ""} ${clicked ? "clicked" : ""}`}
+      className={`country ${hovered ? "hovered" : ""} ${
+        clicked ? "clicked" : ""
+      }`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}

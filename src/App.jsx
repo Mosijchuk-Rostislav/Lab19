@@ -7,6 +7,9 @@ function App() {
   const [page, setPage] = useState(1);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortType, setSortType] = useState("");
+  const [sortDirection, setSortDirection] = useState("asc");
+  const [reverseOrder, setReverseOrder] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,14 +32,37 @@ function App() {
     return country.name.common.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
+  if (sortType === "a-z") {
+    filteredCountries.sort((a, b) =>
+      sortDirection === "asc"
+        ? a.name.common.localeCompare(b.name.common)
+        : b.name.common.localeCompare(a.name.common)
+    );
+  } else if (sortType === "region") {
+    filteredCountries.sort((a, b) =>
+      sortDirection === "asc"
+        ? a.region.localeCompare(b.region)
+        : b.region.localeCompare(a.region)
+    );
+  } else if (reverseOrder) {
+    filteredCountries.reverse();
+  }
+
   const currentCountries = filteredCountries.slice(start, end);
   const renderCountries = () => {
     return currentCountries.map((country, index) => (
-      <Country country={country} start={start} index={index} key={index} />
+      <Country
+        country={country}
+        start={start}
+        index={index}
+        reverseOrder={reverseOrder}
+        key={index}
+      />
     ));
   };
+
   const renderPagination = () => {
-    const totalPages = Math.ceil(countries.length / countriesPerPage);
+    const totalPages = Math.ceil(filteredCountries.length / countriesPerPage);
     const pages = [];
     for (let i = 1; i <= totalPages; i++) {
       pages.push(
@@ -52,6 +78,19 @@ function App() {
     return pages;
   };
 
+  const handleReverseOrder = () => {
+    setReverseOrder(!reverseOrder);
+  };
+
+  const handleSort = (type) => {
+    if (type === sortType) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortType(type);
+      setSortDirection("asc");
+    }
+  };
+
   return (
     <div className="container">
       <input
@@ -60,6 +99,24 @@ function App() {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
+      <div className="sort-buttons">
+        <button className="left-btn" onClick={handleReverseOrder}>
+          {reverseOrder ? "Reverse Order" : "Original Order"}
+        </button>
+        <button
+          onClick={() => handleSort("a-z")}
+          className={sortType === "a-z" ? "active" : ""}
+        >
+          Sort А-Я
+        </button>
+        <button
+          onClick={() => handleSort("region")}
+          className={sortType === "region" ? "active" : ""}
+        >
+          Sort by Region
+        </button>
+        <button onClick={() => setSortType("")}>Reset Sort</button>
+      </div>
       <div className="list">
         <strong>Country list:</strong>
       </div>
@@ -75,4 +132,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
